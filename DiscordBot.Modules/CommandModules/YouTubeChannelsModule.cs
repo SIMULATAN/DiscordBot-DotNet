@@ -15,6 +15,7 @@ namespace DiscordBot.Modules.CommandModules
         }
 
         [Command("ytsetup")]
+        [RequireOwner]
         public async Task YTSetup()
         {
             var role = base.Context.Guild.GetRole(base.Context.Guild.Id);
@@ -26,6 +27,7 @@ namespace DiscordBot.Modules.CommandModules
             await _channel1.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(_channel1).Modify(viewChannel: PermValue.Allow));
             var _channel2 = (await base.Context.Guild.CreateVoiceChannelAsync("Views", prop => prop.CategoryId = _categoryID));
             await _channel2.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(_channel2).Modify(viewChannel: PermValue.Allow));
+            await ReplyAsync("Erfolgreich YouTube Statistiken-Kanäle erstellt!");
         }
     }
 }
