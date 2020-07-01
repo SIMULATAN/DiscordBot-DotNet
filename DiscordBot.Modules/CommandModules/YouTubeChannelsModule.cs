@@ -17,11 +17,15 @@ namespace DiscordBot.Modules.CommandModules
         [Command("ytsetup")]
         public async Task YTSetup()
         {
+            var role = base.Context.Guild.GetRole(base.Context.Guild.Id);
             logger.LogInformation($"Kanäle werden auf dem Server {base.Context.Guild.Name} erstellt...");
-            var _category = (ICategoryChannel)base.Context.Guild.CreateCategoryAsync("YouTube Statistiken");
-            var _channel1 = (IVoiceChannel)base.Context.Guild.CreateVoiceChannelAsync("Abonnenten");
-            await _channel1.AddPermissionOverwriteAsync("everyone", ChannelPermission.Connect: PermValue.Deny);
-            await _channel1.ModifyAsync(ChannelPermissions.Voice.Connect: PermValue.Deny);
+            ulong _categoryID = ((await base.Context.Guild.CreateCategoryAsync("YouTube Statistiken")).Id);
+            var _channel3 = (await base.Context.Guild.CreateVoiceChannelAsync("Name", prop => prop.CategoryId = _categoryID));
+            await _channel3.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(_channel3).Modify(viewChannel: PermValue.Allow));
+            var _channel1 = (await base.Context.Guild.CreateVoiceChannelAsync("Abonnenten", prop => prop.CategoryId = _categoryID));
+            await _channel1.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(_channel1).Modify(viewChannel: PermValue.Allow));
+            var _channel2 = (await base.Context.Guild.CreateVoiceChannelAsync("Views", prop => prop.CategoryId = _categoryID));
+            await _channel2.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(_channel2).Modify(viewChannel: PermValue.Allow));
         }
     }
 }
