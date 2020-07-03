@@ -17,6 +17,9 @@ using System.IO;
 using System.Net.Http;
 using DiscordBot.Domain.CoderDojoInfoModule.Configuration;
 using DiscordBot.Domain.CoderDojoInfoModule.ServicesImpl;
+using DiscordBot.Domain.Database.Config;
+using DiscordBot.Domain.Database.Service;
+using DiscordBot.Domain.Database.Service.Impl;
 
 namespace DiscordBot
 {
@@ -54,6 +57,7 @@ namespace DiscordBot
                 .AddScoped<ICatService, CatService>()
                 .AddSingleton<MinecraftService>()
                 .AddTransient<MapBoxStaticMapService>()
+                .AddSingleton<IDatabaseService, DatabaseService>()
                 .AddScoped<ICoderDojoAppointmentReaderService, CoderDojoAppointmentReaderService>();
 
             services.Configure<DiscordSettings>(hostContext.Configuration.GetSection("Discord"));
@@ -62,6 +66,7 @@ namespace DiscordBot
             services.Configure<JawgSettings>(hostContext.Configuration.GetSection("MapServices:Jawg"));
             services.Configure<MapBoxSettings>(hostContext.Configuration.GetSection("MapServices:MapBox"));
             services.Configure<CDAppointmentSettings>(hostContext.Configuration.GetSection("CoderDojoAppointments"));
+            services.Configure<DBConfiguration>(hostContext.Configuration.GetSection("Database"));
 
             services.AddApplicationInsightsTelemetryWorkerService();
 
