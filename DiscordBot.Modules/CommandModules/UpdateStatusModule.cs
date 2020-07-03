@@ -55,8 +55,8 @@ namespace DiscordBot.Modules
         {
             //if (useristrusted)
             //{
-            //    JObject jo = JObject.Parse(_activityList);
-            //    jo[number - 1].Remove();
+            _activityList.RemoveAt(number - 1);
+            _statusList.RemoveAt(number - 1);
                 
             //}
         }
